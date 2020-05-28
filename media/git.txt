@@ -1,0 +1,56 @@
+GIT
+
+git clone <url github> // va a clonar el repositorio de github a la ubicación de la consola
+
+git init //empezar proyecto
+git add <nombrearchivo> //agrega archivo localmente
+git add . //agrega todo los archivos
+
+git commit -m "mensaje" //primera foto del proyecto
+git commit // i ESC :wq ENTER
+
+git config --global user.email "email" // registra el correo del autor
+git config --global user.name "nombre" //registra nombre del autor
+
+git status //ver el estado de los archivos
+
+git log //ver los commits
+git log --oneline --decorate -all --graph // muestra los commit mas bonito jaja
+git config --global alias.lodag 'log --online --decorate --all --grap' // crea un alias
+// "git log --oneline --decorate -all --graph" = "git lodag" // ahora esos dos comandos hacen lo mismo por el alias
+git config --global --get-regexp alias // muestra los alias existentes
+git config --global --unset alias.lodag // elimina el alias 'lodag'
+
+git remote add origin <link github> //accede al repositorio web
+
+git push -u origin master //sube los archivos al repositorio, pedirá acceso a la cuenta la primera vez
+
+git checkout -- <archivo> // regresa la version (algo asi)
+
+git fetch // Bajar cambios del repositorio a uno oculto a la rama origin/master
+git merge origin/master // para pasar a la rama master
+git pull // git fetch + git merge
+
+git branch // muestra todas las ramas existentes y la que se muestra actualmente
+git branch hola // crea rama "hola"
+git checkout hola // cambia a la rama "hola"
+git checkout -b chao // crea la rama "chao" y cambia a esa rama
+git branch -m hola holamundo // cambia el nombre de la rama de "hola" a "holamundo"
+git branch -m holamundo // elimina la rama "holamundo"
+
+git merge hola // para pasar cambios a master, previamente hay que cambiarse a la rama master
+
+
+*Cuando se genera un README antes de hacer PUSH, y se intenta hacer PUSH, 
+ puede dar un error, esta puede ser la solución*
+
+git pull --rebase origin master // pone los commits encima de los cambios recién extraídos
+git add .
+git commit -m "cmtmsg"
+git push -u origin master
+*
+
+
+
+
+

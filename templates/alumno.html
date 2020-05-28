@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %} {{ title }} Alumno {% endblock %}
+{% block content %}
+  <div class="col-5 mx-auto">
+    <h1 class="display-3 py-3">{{ title }} Alumno</h1>
+  </div>
+  <div class="col-5 mx-auto my-4">
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      {{ form.as_ul }}
+      <button type="submit" class="btn btn-primary">{{ title }}</button>
+    </form>
+  </div>
+{% endblock %}
