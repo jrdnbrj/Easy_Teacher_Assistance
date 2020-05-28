@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
-{% block title %} {{ title }} Post Assignment {% endblock %}
+{% block title %} {{ title }} Easy Teacher Assistance {% endblock %}
 {% block content %}
-<button type="button" class="btn btn-success btn-lg btn-block mx-auto col-10 mt-5" onclick="location.href='{% url 'crear_alumno' %}'">Nuevo Alumno</button>
+<button type="button" class="btn btn-success btn-lg btn-block mx-auto col-10 mt-5" onclick="location.href='{% url 'crear_alumno' %}'">
+  Crear Nuevo Registro de Alumno
+</button>
 <table class="table table-hover col-5 mx-auto mt-5">
   <thead>
     <tr>

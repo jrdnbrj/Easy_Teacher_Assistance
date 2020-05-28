@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Alumno
 from .forms import AlumnoForm
+from django.http import HttpResponse
 
 # Create your views here.
 def index(request):
@@ -38,3 +39,14 @@ def eliminar_alumno(request, id):
         Alumno.objects.get(id = id).delete()
         return redirect('index')
     return render(request, 'alumno.html', {})
+
+def download_file(request, path):
+    response = HttpResponse(open('media/' + path, 'rb').read())
+    response['Content-Type'] = 'text/plain'
+    response['Content-Disposition'] = 'attachment; filename='+path
+    return response
+
+    #print(path)
+    #with open('media/' + path, 'rb') as f:
+    #    content = f.read()
+    #return HttpResponse(content, content_type='text/plain')
