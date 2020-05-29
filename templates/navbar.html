@@ -1,12 +1,57 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <a class="navbar-brand" href="{% url 'index' %}">EASY TEACHER ASSISTANCE</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    <div class="navbar-nav">
-      <a class="nav-item nav-link mx-3" href="#">Crear Nuevo Registro de Alumno</a>
-      <a class="nav-item nav-link" href="#"></a>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="{% url 'index' %}">EASY TEACHER ASSISTANCE</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      {% if user.is_authenticated %}
+        <ul class="navbar-nav">
+          <a class="nav-item nav-link mx-3" href="{% url 'crear_alumno' %}">Crear Nuevo Registro de Alumno</a>
+        </ul>
+      {% endif %}
+      <ul class="navbar-nav dropdown ml-auto">
+
+        {% if user.is_authenticated %}
+
+          <li class="nav-item active"><a class="nav-link">Hola, {{ user.username | title }}</a></li>
+          <a class="btn btn-outline-light" href="{% url 'cerrar_sesion' %}">Cerrar Sesión</a>
+
+        {% else %}
+
+          <a href="" class="btn btn-outline-light float-right px-5" data-toggle="dropdown">Iniciar Sesión o Registrarse</a>
+          <div class="dropdown-menu py-2 col">
+
+            <form class="form container-fluid" method="POST" action="{% url 'iniciar_sesion' %}">
+              {% csrf_token %}
+              {% if messages %}
+
+                {% for message in messages %}
+                  <span class="text-danger">{{ message }}<span>
+                {% endfor %}
+
+              {% else %}
+                <br>
+              {% endif %}
+              <div class="form-group"><input class="form-control" name="username" type="text" placeholder="Usuario"></div>
+              <div class="form-group"><input class="form-control" name="password" type="password" placeholder="Contraseña" ></div>
+              <button type="submit" class="btn btn-outline-success btn-block">Iniciar Sesión</button>
+              <hr>
+              <a href="" class="" title="Es rápido y gratis!" data-toggle="collapse" data-target="#signup">Registrar Usuario</a>
+            </form>
+
+            <form id="signup" class="collapse container-fluid" method="POST" action="{% url 'registrar_usuario' %}">
+              {% csrf_token %}
+              <br>
+              <div class="form-group"><input class="form-control" name="mail" type="email" placeholder="Correo"></div>
+              <div class="form-group"><input class="form-control" name="username" type="text" placeholder="Nombre de usuario"></div>
+              <div class="form-group"><input class="form-control" name="password" type="password" placeholder="Contraseña"></div>
+              <div class="form-group"><input class="form-control" name="password_verify" type="password" placeholder="Contraseña (otra vez)"></div>
+              <button type="submit" class="btn btn-outline-success btn-block">Registrarse</button>
+            </form>
+
+          </div>
+
+        {% endif %}
+      </ul>
     </div>
-  </div>
-</nav>
+  </nav>

@@ -4,4 +4,4 @@ from .models import Alumno
 class AlumnoForm(ModelForm):
     class Meta:
         model = Alumno
-        fields = '__all__'
+        fields = ['nombre', 'apellido', 'calificacion', 'archivo',]

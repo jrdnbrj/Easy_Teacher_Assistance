@@ -1,39 +1,104 @@
 {% extends 'base.html' %}
 {% block title %} {{ title }} Easy Teacher Assistance {% endblock %}
 {% block content %}
-<button type="button" class="btn btn-success btn-lg btn-block mx-auto col-10 mt-5" onclick="location.href='{% url 'crear_alumno' %}'">
+
+{% if user.is_authenticated %}
+<button type="button" class="btn btn-success btn-lg btn-block mx-auto col-8 my-4" onclick="location.href='{% url 'crear_alumno' %}'">
   Crear Nuevo Registro de Alumno
 </button>
-<table class="table table-hover col-5 mx-auto mt-5">
-  <thead>
-    <tr>
-      <th></th>
-      <th scope="col">Nombre</th>
-      <th scope="col">Apellido</th>
-      <th scope="col">Calificación</th>
-      <th scope="col">Archivo</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for alumno in alumnos %}
+<div class="row justify-content-center">
+  <div class="col-auto">
+    <table class="table table-hover table-responsive">
+      <thead class="thead-light">
         <tr>
-          <td clas="dropdown">
-            <a href="" class="btn btn-outline-danger btn-sm btn-block" data-toggle="dropdown">Eliminar</a>
-              <div class="dropdown-menu col-3 text-center">
-                  <form class="form container-fluid" method="POST" action="{% url 'eliminar_alumno' alumno.id %}">
-                      {% csrf_token %}
-                      <h5 class="">¿Estás seguro de eliminar?</h5>
-                      <button type="submit" class="btn btn-sm btn-danger btn-block">Eliminar</button>
-                      <button type="" class="btn btn-sm btn-success btn-block" data-toggle="dropdown">Cancelar</button>
-                  </form>
-              </div>
-          </td>
-          <td><a href="{% url 'editar_alumno' alumno.id %}">{{ alumno.nombre }}</a></td>
-          <td>{{ alumno.apellido }}</td>
-          <td>{{ alumno.calificacion }}</td>
-          <td>{{ alumno.archivo }}</td>
+          <th>Acciones</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Apellido</th>
+          <th scope="col">Archivo</th>
+          <th scope="col">Calificación</th>
         </tr>
-    {% endfor %}
-  </tbody>
-</table>
+      </thead>
+      {% for usuario in usuarios %}
+
+
+            <tbody>
+            {% for alumno in alumnos %}
+                {% if usuario == alumno.usuario %}
+                  <tr class="text-center">
+                    <td clas="dropdown">
+                      <a href="{% url 'editar_alumno' alumno.id %}" class="btn btn-warning btn-sm btn-block">Editar</a>
+                      <a href="" class="btn btn-danger btn-sm btn-block" data-toggle="dropdown">Eliminar</a>
+                        <div class="dropdown-menu col-3 text-center">
+                            <form class="form container-fluid" method="POST" action="{% url 'eliminar_alumno' alumno.id %}">
+                                {% csrf_token %}
+                                <h5 class="">¿Estás seguro de eliminar?</h5>
+                                <button type="submit" class="btn btn-sm btn-danger btn-block">Eliminar</button>
+                                <button type="" class="btn btn-sm btn-success btn-block" data-toggle="dropdown">Cancelar</button>
+                            </form>
+                        </div>
+                    </td>
+                    <td class="align-middle h6">{{ alumno.nombre }}</td>
+                    <td class="align-middle h6">{{ alumno.apellido }}</td>
+                    <td class="align-middle h6">{{ alumno.archivo }}</td>
+                    <td class="align-middle h6"><span class="badge badge-secondary">{{ alumno.calificacion }}</span></td>
+                  </tr>
+                {% endif %}
+
+            {% endfor %}
+            </tbody>
+
+      {% endfor %}
+    </table>
+  </div>
+</div>
+
+{% else %}
+
+<div class="mx-auto">
+  <h1 class="display-4 py-3 text-center">Listado de Alumnos</h1>
+</div>
+
+<div class="row justify-content-center">
+  <div class="col-auto">
+    <table class="table table-hover table-responsive">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">Nombre</th>
+          <th scope="col">Apellido</th>
+          <th scope="col">Archivo</th>
+          <th scope="col">Calificación</th>
+        </tr>
+      </thead>
+      {% for usuario in usuarios %}
+
+
+            <thead class="thead-dark table-sm">
+              <tr>
+                <th scope="col" colspan="5" class="text-center">{{ usuario.username | upper }}</th>
+              </tr>
+            </thead>
+
+            <tbody>
+            {% for alumno in alumnos %}
+                {% if usuario == alumno.usuario %}
+                  <tr class="text-center">
+                    <td class="align-middle h6">{{ alumno.nombre }}</td>
+                    <td class="align-middle h6">{{ alumno.apellido }}</td>
+                    <td class="align-middle h6">{{ alumno.archivo }}</td>
+                    <td class="align-middle h6"><span class="badge badge-secondary">{{ alumno.calificacion }}</span></td>
+                  </tr>
+                {% endif %}
+
+            {% endfor %}
+            </tbody>
+
+      {% endfor %}
+    </table>
+  </div>
+</div>
+
+{% endif %}
+
+
+
 {% endblock %}
