@@ -12,7 +12,13 @@
       <ul class="navbar-nav dropdown ml-auto">
 
         {% if user.is_authenticated %}
-
+            <a href="" class="btn btn-light mr-5 px-3 col" data-toggle="dropdown">Eliminar Usuario</a>
+            <div class="dropdown-menu">
+                <form class="form container-fluid" method="POST" action="{% url 'eliminar_usuario' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-danger col">Eliminar</button>
+                </form>
+            </div>
           <li class="nav-item active text-center"><a class="nav-link">Hola, {{ user.username | title }}</a></li>
           <a class="btn btn-outline-light" href="{% url 'cerrar_sesion' %}">Cerrar Sesión</a>
 
@@ -32,7 +38,7 @@
               {% else %}
                 <br>
               {% endif %}
-              <div class="form-group"><input class="form-control" name="username" type="text" placeholder="Usuario" required></div>
+              <div class="form-group"><input class="form-control" name="mail" type="text" placeholder="Usuario" required></div>
               <div class="form-group"><input class="form-control" name="password" type="password" placeholder="Contraseña" required></div>
               <button type="submit" class="btn btn-outline-success btn-block">Iniciar Sesión</button>
               <hr>

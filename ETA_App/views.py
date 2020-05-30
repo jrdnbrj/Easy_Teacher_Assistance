@@ -1,12 +1,11 @@
 from django.shortcuts import render, redirect
-from .models import Alumno
-from .forms import AlumnoForm
+from .models import Alumno, Usuario
+from .forms import AlumnoForm, UsuarioForm
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-
 
 # Create your views here.
 
@@ -23,6 +22,11 @@ def index(request):
 
 def registrar_usuario(request):
     if request.method == 'POST':
+        usuario = UsuarioForm(request.POST)
+        if usuario.is_valid():
+            usuario.save()
+        else:
+            print('---------------User Error-------------')
         email = request.POST['mail']
         username = request.POST['username']
         password = request.POST['password']
@@ -31,16 +35,26 @@ def registrar_usuario(request):
             user = User.objects.create_user(username, email, password)
             if user is None:
                 messages.error(request, 'Error al registrar usuario')
-            usuario = AlumnoForm(request.POST)
-            if usuario.is_valid():
-                usuario.save()
         else:
             messages.error(request, 'Las contraseñas no coinciden')
     return redirect('index')
 
+def eliminar_usuario(request):
+    try:
+        user = User.objects.get(username = request.user.username)
+        user.delete()
+    except:
+        print('-----------Delete User Error-----------')
+    return redirect('index')
+
 def iniciar_sesion(request):
     if request.method == 'POST':
-        username = request.POST['username']
+        usuario = UsuarioForm(request.POST)
+        if usuario.is_valid():
+            usuario.save()
+        else:
+            print('---------------User Error--------------')
+        username = request.POST['mail']
         password = request.POST['password']
         user = authenticate(request, username = username, password = password)
         if user is not None:
